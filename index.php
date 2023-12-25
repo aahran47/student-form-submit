@@ -61,8 +61,9 @@
 			$msg = "<p class=\" alert alert-warning\">Invalid Email Address!! <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
 		}elseif( $ins_mail != 'sorobindu.com' && $ins_mail != 'habibialbi.com'){
 			$msg = "<p class=\" alert alert-info\">Email should be our instutute mail!!! <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
-		}elseif( $ph != '018' && $ph != '017'){
-			$msg = "<p class=\" alert alert-info\"> Phone number should be started 018|017 <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+			/**in_array() $ph != '018' && $ph != '017'*/
+		}elseif( in_array($ph, ['018', '016', '017', '013', '019', '014', '015']) == false ){
+			$msg = "<p class=\" alert alert-info\"> Phone should be BD number <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
 		}else{
 			$msg = "<p class=\" alert alert-success\">Data is stable<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
 		}

@@ -1,10 +1,5 @@
 
 
-
-## Student Login Form 
-
-<img src="pro.jpg">
-
 <?php 
     // $name = "samim";    
     // $marks = 80;
