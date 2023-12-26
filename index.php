@@ -22,6 +22,41 @@
 		$email = $_POST['email'];
 		$cell = $_POST['cell'];
 		$roll = $_POST['name'];
+		
+		// File upload system with php 
+
+		
+		$file = $_FILES['file'];
+
+		$file_name = $file['name'];
+		$file_tmpname = $file['tmp_name'];
+		$file_size = $file['size'];
+
+		// Get Extension
+
+		$file_arr = explode('.', $file_name);
+
+		$extension = end($file_arr);
+
+		//unique file name
+
+		$unique_name_pro = time() .rand(1, 9999999);
+
+		$unique_name = md5($unique_name_pro)  . "." . $extension;
+
+
+		if( empty($file_name)){
+			$msgfl = "<p class=\" alert alert-info\">Please selece photo !!!<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+		}elseif( in_array($extension, ['jpg','png','gif','jpeg','webp']) == false ){
+			$msgfl = "<p class=\" alert alert-danger\">Image formet is wrong!!<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+		}else{
+			move_uploaded_file($file_tmpname, 'assets/pp/' . $unique_name);
+			$msgfl = "<p class=\" alert alert-success\">File upload success!<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+		}
+
+
+
+		
 
 
 		if( isset($email)) {
@@ -72,9 +107,11 @@
 
 	}
 
-	
-	
-	
+
+
+
+
+
 
 
 ?>	
@@ -101,7 +138,7 @@
 					</div>
 					<div class="form-group">
 						<label for="email">Email</label>
-						<input name="email" id="email" class="form-control" type="text">
+						<input name="email" id="email" class="form-control" type="text" placeholder="name@habibialbi.com/name@sorobindu.com">
 						<?php 
 							if( isset($err['email']) ){
 								echo $err['email'];
@@ -127,6 +164,16 @@
 						?>
 					</div>
 					<div class="form-group">
+						<?php 
+								if( isset($msgfl) ){
+									echo $msgfl;		
+								}
+						?>
+						
+						<label for="file"><img style="cursor: pointer;" width="80" data-toggle="tooltip" data-placement="right" title="Profile Photo" src="pic.png" alt=""></label>
+						<input style="display: none;" name="file" type="file" id="file">
+					</div>
+					<div class="form-group">
 						<input name="insert" class="btn btn-primary" type="submit" value="Insert">
 					</div>
 				</form>
@@ -146,5 +193,12 @@
 	<script src="assets/js/popper.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/custom.js"></script>
+	<script>
+		$(function () {
+
+		$('[data-toggle="tooltip"]').tooltip()
+		})
+
+	</script>
 </body>
 </html>
