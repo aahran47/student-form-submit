@@ -705,6 +705,49 @@
 // }
 
 // 
+/**
+         * date("d") function use kore dynamic month ar obostan print kora 
+         */
+
+                // $t = date("d");
+                // echo("Today is " . $t . "<br>");
+                // if ($t < "10") {
+                // echo "Starting of the month";
+                // } elseif ($t < "20") {
+                // echo "It's the mid of the month";
+                // } else {
+                // echo "The month is almost about to end";
+                // }
+
+        /**
+         * date("D") function use kore dynamic date print kora 
+         */
+
+		        // $t = date("D");
+		        // echo $t ."\n";
+		        // switch ($t) {
+                // case "Sun":
+                //     echo "Hey, Today is Sunday!";
+                //     break;
+                // case "Mon":
+                //     echo "Hey, Today is Monday!";
+                //     break;
+                // case "Tue":
+                //     echo "Hey, Today is Tuesday!";
+                //     break;
+                // case "Wed":
+                //     echo "Hey, Today is Wednesday!";
+                //     break;
+                // case "Thu":
+                //     echo "Hey, Today is Thursday!";
+                //     break;
+                // case "Fri":
+                //     echo "Hey, Today is Friday!";
+                //     break;
+                // default:
+                //     echo "Hey, Today is Saturday!";
+
+                // }
 
 
 
@@ -717,7 +760,8 @@
 
 
 
-<!-- 
+
+// <!-- 
 // <form action="" method="POST" enctype="multipart/form-data">
 //     <input name="name" type="text" placeholder="Name">
 //     <input name="email" type="text" placeholder="Email">

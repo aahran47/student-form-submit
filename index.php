@@ -55,6 +55,7 @@
 
 
 		// Form Validation
+
 		if( empty($name) || empty($email) || empty($cell) || empty($roll) ){
 			$msg = "<p class=\" alert alert-danger\">All fill are requiered!! <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
 		}else if( filter_var($email, FILTER_VALIDATE_EMAIL) == false ){
@@ -72,7 +73,8 @@
 	}
 
 	
-
+	
+	
 
 
 ?>	
