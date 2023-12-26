@@ -31,6 +31,9 @@
 		$file_name = $file['name'];
 		$file_tmpname = $file['tmp_name'];
 		$file_size = $file['size'];
+		$size_in_kb = $file_size/ 1024;
+
+
 
 		// Get Extension
 
@@ -45,10 +48,16 @@
 		$unique_name = md5($unique_name_pro)  . "." . $extension;
 
 
+
+		/**
+		 * File Validation 
+		 */
 		if( empty($file_name)){
 			$msgfl = "<p class=\" alert alert-info\">Please selece photo !!!<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
 		}elseif( in_array($extension, ['jpg','png','gif','jpeg','webp']) == false ){
 			$msgfl = "<p class=\" alert alert-danger\">Image formet is wrong!!<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+		}elseif( $size_in_kb > 500 ){
+			$msgfl = "<p class=\" alert alert-info\">Minimum Image Size 500 KB <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
 		}else{
 			move_uploaded_file($file_tmpname, 'assets/pp/' . $unique_name);
 			$msgfl = "<p class=\" alert alert-success\">File upload success!<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
@@ -163,16 +172,39 @@
 							}
 						?>
 					</div>
-					<div class="form-group">
-						<?php 
-								if( isset($msgfl) ){
-									echo $msgfl;		
-								}
-						?>
-						
-						<label for="file"><img style="cursor: pointer;" width="80" data-toggle="tooltip" data-placement="right" title="Profile Photo" src="pic.png" alt=""></label>
-						<input style="display: none;" name="file" type="file" id="file">
+					<div class="form-group">		
+									<?php 
+										if( isset($msgfl) ){
+											echo $msgfl;		
+												}
+									?>	
 					</div>
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<div class="form-group">								
+									<h6>Profile Photo</h6>					
+									<label for="file"><img style="cursor: pointer;" width="80" data-toggle="tooltip" data-placement="right" title="Profile Photo" src="pic.png" alt=""></label>
+									<input style="display: none;" name="file" type="file" id="file">
+												
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group"> 
+									<h6>Preview Here</h6>
+									<img class="border border-gray rounded-circle" width='75' height="75" id="up_file" src="" alt="">
+								</div>					
+							</div>
+							<div class="col-6">
+								
+							</div>
+
+
+						</div>
+					</div>
+
+
+					
 					<div class="form-group">
 						<input name="insert" class="btn btn-primary" type="submit" value="Insert">
 					</div>
@@ -198,6 +230,17 @@
 
 		$('[data-toggle="tooltip"]').tooltip()
 		})
+
+
+		$('input[name="file"]').change(function(e){
+
+			let file_url = URL.createObjectURL(e.target.files[0]);
+
+			$('img#up_file').attr('src', file_url);
+
+		});
+
+
 
 	</script>
 </body>
