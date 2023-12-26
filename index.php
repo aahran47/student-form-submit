@@ -183,7 +183,7 @@
 						<div class="row">
 							<div class="col">
 								<div class="form-group">								
-									<h6>Profile Photo</h6>					
+									<h6>Upload Here</h6>					
 									<label for="file"><img style="cursor: pointer;" width="80" data-toggle="tooltip" data-placement="right" title="Profile Photo" src="pic.png" alt=""></label>
 									<input style="display: none;" name="file" type="file" id="file">
 												
