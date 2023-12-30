@@ -1,3 +1,32 @@
+<?php
+
+	/**
+	 *  Database A to Z
+	 */
+
+	//  $connection = new mysqli('localhost','root','','parvez');
+
+	//  $sqq = "CREATE TABLE users(
+	// 	 id int AUTO_INCREMENT,
+	// 	 name varchar(100),
+	// 	 email varchar(100),
+	// 	 cell varchar(15),
+	// 	 roll varchar(5),
+	// 	 PRIMARY KEY (id) 
+ 
+	//  )";
+	//  $connection -> query($sqq);
+
+
+
+
+
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +40,12 @@
 <body>
 
 <?php
+	
+
+
+
+
+
 	/**
 	 * Student Data From
 	 */
@@ -21,7 +56,7 @@
 		$name = $_POST['name'];
 		$email = $_POST['email'];
 		$cell = $_POST['cell'];
-		$roll = $_POST['name'];
+		$roll = $_POST['roll'];
 		
 		// File upload system with php 
 
@@ -110,14 +145,25 @@
 		}elseif( in_array($ph, ['018', '016', '017', '013', '019', '014', '015']) == false ){
 			$msg = "<p class=\" alert alert-info\"> Phone should be BD number <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
 		}else{
+			$connection = new mysqli('localhost','root','','parvez');
+
+			$sqq = "INSERT INTO users (name, email, cell , roll) VALUES ('$name','$email','$cell','$roll')";
+	
+			$connection -> query($sqq);
+	
 			$msg = "<p class=\" alert alert-success\">Data is stable<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
 		}
+
+
+	
+
+
 
 
 	}
 
 
-
+	
 
 
 
