@@ -2,6 +2,17 @@
 include_once "autoload.php";
 
 
+if( isset($_GET['delete_id'])){
+	$delete_id = $_GET['delete_id'];
+	$photo_name = $_GET['photo'];
+
+	unlink('assets/pp/'. $photo_name);
+	delete('users', $delete_id);
+	header("location:http://localhost:8080/parvez/");
+}
+ 
+
+
 ?>
 
 
@@ -65,9 +76,9 @@ include_once "autoload.php";
 							<td><?php echo $user_da['gender'] ?></td>
 							<td><img src="assets/pp/<?php echo $user_da['photo'] ?>" alt=""></td>
 							<td>
-								<a class="btn btn-sm btn-info" href="?id=<?php echo $user_da['id']?>">View</a>
+								<a class="btn btn-sm btn-info" href="">View</a>
 								<a class="btn btn-sm btn-warning" href="#">Edit</a>
-								<a class="btn btn-sm btn-danger" href="#">Delete</a>
+								<a class="btn btn-sm btn-danger" href="?delete_id=<?php echo $user_da['id']?>&photo=<?php echo $user_da['photo']?>">Delete</a>
 							</td>
 						</tr>
 						

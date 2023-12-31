@@ -32,8 +32,8 @@
  * Data delete by function 
  */
 
- function delete(){
-   
+ function delete($table, $id){
+   connect()->query("DELETE FROM $table WHERE id='$id'");
  }
 
 
