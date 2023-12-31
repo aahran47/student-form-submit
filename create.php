@@ -40,45 +40,29 @@ include_once "autoload.php";
 		$location = $_POST['location'];
 		$gender = $_POST['gender'];
 		
-		// File upload system with php 
+		
+		/// Upload profile photo
+		$data = move($_FILES['file'], 'assets/pp/',['jpg','png','gif']);
+
+		/// Get data from function 
+		$unique_name = $data['unique_name'];
+		$msgfl = $data['err_msg'];
 
 		
-		$file = $_FILES['file'];
-
-		$file_name = $file['name'];
-		$file_tmpname = $file['tmp_name'];
-		$file_size = $file['size'];
-		$size_in_kb = $file_size/ 1024;
-
-
-
-		// Get Extension
-
-		$file_arr = explode('.', $file_name);
-
-		$extension = end($file_arr);
-
-		//unique file name
-
-		$unique_name_pro = time() .rand(1, 9999999);
-
-		$unique_name = md5($unique_name_pro)  . "." . $extension;
-
 
 
 		/**
-		 * File Validation 
+		 * File Validation with move() function bro
 		 */
-		if( empty($file_name)){
-			$msgfl = validate('Please selece photo !!!', 'info');
-		}elseif( in_array($extension, ['jpg','png','gif','jpeg','webp']) == false ){
-			$msgfl = validate('Image formet is wrong!!', 'danger');
-		}elseif( $size_in_kb > 500 ){
-			$msgfl = validate('Minimum Image Size 500 KB', 'info');
-		}else{
-			move_uploaded_file($file_tmpname, 'assets/pp/' . $unique_name);
+		if( empty($msgfl)){
 			$msgfl = validate('File upload success!', 'success');
+		}else{			
+			
+			$msgfl = validate('Please selece photo !!!', 'info');
+
 		}
+
+		
 
 
 
@@ -134,9 +118,12 @@ include_once "autoload.php";
 		}elseif( in_array($ph, ['018', '016', '017', '013', '019', '014', '015']) == false ){
 			$msg = validate('Phone should be BD number', 'info');
 		}else{
-			$sqq = "INSERT INTO users (name, email, cell , roll, location, gender, photo) VALUES ('$name','$email','$cell','$roll', '$location', '$gender', '$unique_name')";
+
+			
+
+			/// Data insert
+			create("INSERT INTO users (name, email, cell , roll, location, gender, photo) VALUES ('$name','$email','$cell','$roll', '$location', '$gender', '$unique_name')");
 	
-			connect() -> query($sqq);
 	
 			$msg = validate('Data is stable', 'success');
 		}
