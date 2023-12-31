@@ -37,6 +37,8 @@ include_once "autoload.php";
 		$email = $_POST['email'];
 		$cell = $_POST['cell'];
 		$roll = $_POST['roll'];
+		$location = $_POST['location'];
+		$gender = $_POST['gender'];
 		
 		// File upload system with php 
 
@@ -68,14 +70,14 @@ include_once "autoload.php";
 		 * File Validation 
 		 */
 		if( empty($file_name)){
-			$msgfl = "<p class=\" alert alert-info\">Please selece photo !!!<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+			$msgfl = validate('Please selece photo !!!', 'info');
 		}elseif( in_array($extension, ['jpg','png','gif','jpeg','webp']) == false ){
-			$msgfl = "<p class=\" alert alert-danger\">Image formet is wrong!!<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
-		}elseif( $size_in_kb > 5000 ){
-			$msgfl = "<p class=\" alert alert-info\">Minimum Image Size 500 KB <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+			$msgfl = validate('Image formet is wrong!!', 'danger');
+		}elseif( $size_in_kb > 500 ){
+			$msgfl = validate('Minimum Image Size 500 KB', 'info');
 		}else{
 			move_uploaded_file($file_tmpname, 'assets/pp/' . $unique_name);
-			$msgfl = "<p class=\" alert alert-success\">File upload success!<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+			$msgfl = validate('File upload success!', 'success');
 		}
 
 
@@ -109,32 +111,39 @@ include_once "autoload.php";
 		if( empty($roll) ){
 			$err['roll'] = "<p style= \" color:red;\"> * Required</p>";
 		}
+		if( empty($location) ){
+			$err['location'] = "<p style= \" color:red;\"> * Required</p>";
+		}
+		if( empty($gender) ){
+			$err['gender'] = "<p style= \" color:red;\"> * Required</p>";
+		}
+
 
 
 
 
 		// Form Validation
 
-		if( empty($name) || empty($email) || empty($cell) || empty($roll) ){
-			$msg = "<p class=\" alert alert-danger\">All fill are requiered!! <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+		if( empty($name) || empty($email) || empty($cell) || empty($roll) || empty($location) || empty($gender) ){
+			$msg = validate('All fields are required!!!!');
 		}else if( filter_var($email, FILTER_VALIDATE_EMAIL) == false ){
-			$msg = "<p class=\" alert alert-warning\">Invalid Email Address!! <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+			$msg = validate('Invalid Email Address!!');
 		}elseif( $ins_mail != 'sorobindu.com' && $ins_mail != 'habibialbi.com'){
-			$msg = "<p class=\" alert alert-info\">Email should be our instutute mail!!! <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+			$msg = validate('Email should be our instutute mail!!!', 'info');
 			/**in_array() $ph != '018' && $ph != '017'*/
 		}elseif( in_array($ph, ['018', '016', '017', '013', '019', '014', '015']) == false ){
-			$msg = "<p class=\" alert alert-info\"> Phone should be BD number <button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+			$msg = validate('Phone should be BD number', 'info');
 		}else{
-			$sqq = "INSERT INTO users (name, email, cell , roll) VALUES ('$name','$email','$cell','$roll')";
+			$sqq = "INSERT INTO users (name, email, cell , roll, location, gender, photo) VALUES ('$name','$email','$cell','$roll', '$location', '$gender', '$unique_name')";
 	
-			$connection -> query($sqq);
+			connect() -> query($sqq);
 	
-			$msg = "<p class=\" alert alert-success\">Data is stable<button class=\"close\" data-dismiss=\"alert\">&times;</button></p>";
+			$msg = validate('Data is stable', 'success');
 		}
 
 
 	
-
+ 
 
 
 
@@ -196,6 +205,24 @@ include_once "autoload.php";
 						<?php 
 							if( isset($err['roll']) ){
 								echo $err['roll'];
+							}
+						?>
+					</div>
+					<div class="form-group">
+						<label for="location">Location</label>
+						<input name="location" id="location" class="form-control" type="text">
+						<?php 
+							if( isset($err['location']) ){
+								echo $err['location'];
+							}
+						?>
+					</div>
+					<div class="form-group">
+						<label for="gender">Gender</label>
+						<input name="gender" id="gender" class="form-control" type="text">
+						<?php 
+							if( isset($err['gender']) ){
+								echo $err['gender'];
 							}
 						?>
 					</div>

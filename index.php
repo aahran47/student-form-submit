@@ -35,6 +35,8 @@ include_once "autoload.php";
 							<th>Email</th>
 							<th>Cell</th>
 							<th>Roll</th>
+							<th>Location</th>
+							<th>Gender</th>
 							<th>Photo</th>
 							<th>Action</th>
 						</tr>
@@ -44,7 +46,8 @@ include_once "autoload.php";
 						<?php 
 
 						$sql = "SELECT * FROM users";
-						$data = $connection->query($sql);	
+						$data = connect()->query($sql);	
+
 						$o= 1;
 						while( $user_da = $data->fetch_assoc()) :
 
@@ -59,9 +62,11 @@ include_once "autoload.php";
 							<td><?php echo $user_da['email'] ?></td>
 							<td><?php echo $user_da['cell'] ?></td>
 							<td><?php echo $user_da['roll'] ?></td>
+							<td><?php echo $user_da['location'] ?></td>
+							<td><?php echo $user_da['gender'] ?></td>
 							<td><img src="assets/media/img/pp_photo/istockphoto-615279718-612x612.jpg" alt=""></td>
 							<td>
-								<a class="btn btn-sm btn-info" href="#">View</a>
+								<a class="btn btn-sm btn-info" href="?id=<?php echo $user_da['id']?>">View</a>
 								<a class="btn btn-sm btn-warning" href="#">Edit</a>
 								<a class="btn btn-sm btn-danger" href="#">Delete</a>
 							</td>

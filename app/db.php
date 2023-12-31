@@ -8,5 +8,11 @@ $user = 'root';
 $pass  = '';
 $database = 'parvez';
 
+function connect(){  
 
-$connection = new mysqli($host ,$user ,$pass ,$database);
+    global $host, $user, $pass, $database;  
+
+    return $connection = new mysqli($host ,$user ,$pass ,$database);
+
+}
+
