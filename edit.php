@@ -1,7 +1,139 @@
 <?php 
 include_once "autoload.php";
 
+
+
 /**
+	 * Student Data From
+	 */
+
+	 if( isset($_POST['insert']) ){
+
+		//Form Value Get
+		$name = $_POST['name'];
+		$email = $_POST['email'];
+		$cell = $_POST['cell'];
+		$roll = $_POST['roll'];
+		$location = $_POST['location'];
+		$gender = $_POST['gender'];
+
+		$id = $_GET['edit_id'];
+
+
+
+		
+		
+		if(!empty($_FILES['new_photo']['name'])){
+			$data = move($_FILES['new_photo'], 'assets/pp/', ['jpg','png','gif']);
+			$photo_name = $data['unique_name'];
+			unlink('assets/pp/'. $_POST['old_photo']);
+		}else{
+			$photo_name = $_POST['old_photo'];
+		}
+		
+		
+		/// Upload profile photo
+		//$data = move($_FILES['file'], 'assets/pp/',['jpg','png','gif']);
+
+		/// Get data from function 
+		//$unique_name = $data['unique_name'];
+		//$msgfl = $data['err_msg'];
+
+		
+
+
+		/**
+		 * File Validation with move() function bro
+		 */
+		// if( empty($msgfl)){
+		// 	$msgfl = validate('File upload success!', 'success');
+		// }else{			
+			
+		// 	$msgfl = validate('Please selece photo !!!', 'info');
+
+		// }
+
+		
+		
+	
+
+		
+
+
+
+		
+
+
+		if( isset($email)) {
+			// Check Email
+			$email_check = explode('@', $email);
+			$ins_mail = end($email_check);
+		}
+
+
+		$ph = substr($cell, 0, 3);
+
+
+
+		if( empty($name) ){
+			$err['name'] = "<p style= \" color:red;\"> * Required</p>";
+		}
+		
+		if( empty($email) ){
+			$err['email'] = "<p style= \" color:red;\"> * Required</p>";
+		}
+		
+		if( empty($cell) ){
+			$err['cell'] = "<p style= \" color:red;\"> * Required</p>";
+		}
+		
+		if( empty($roll) ){
+			$err['roll'] = "<p style= \" color:red;\"> * Required</p>";
+		}
+		if( empty($location) ){
+			$err['location'] = "<p style= \" color:red;\"> * Required</p>";
+		}
+		if( empty($gender) ){
+			$err['gender'] = "<p style= \" color:red;\"> * Required</p>";
+		}
+
+
+
+
+
+		// Form Validation
+
+		if( empty($name) || empty($email) || empty($cell) || empty($roll) || empty($location) || empty($gender) ){
+			$msg = validate('All fields are required!!!!');
+		}else if( filter_var($email, FILTER_VALIDATE_EMAIL) == false ){
+			$msg = validate('Invalid Email Address!!');
+		}elseif( $ins_mail != 'sorobindu.com' && $ins_mail != 'habibialbi.com'){
+			$msg = validate('Email should be our instutute mail!!!', 'info');
+			/**in_array() $ph != '018' && $ph != '017'*/
+		}elseif( in_array($ph, ['018', '016', '017', '013', '019', '014', '015']) == false ){
+			$msg = validate('Phone should be BD number', 'info');
+		}else{
+
+				
+			
+
+			/// Upate form data
+			connect()->query("UPDATE users SET name='$name', email='$email', cell='$cell', roll='$roll', location='$location', gender='$gender', photo='$photo_name' WHERE id='$id'");
+				
+	
+			$msg = validate('Profile updated successfully!!!', 'success');
+		}
+
+
+	
+ 
+
+
+
+	}
+
+
+	/**
  * Find Edit Student Data
  */
 if(isset($_GET['edit_id'])){
@@ -9,10 +141,12 @@ if(isset($_GET['edit_id'])){
 	$id = $_GET['edit_id'];
 
 	$e_stu = find('users', $id);
-	
-	
-
 }
+
+
+
+
+
 
 
 
@@ -37,7 +171,18 @@ if(isset($_GET['edit_id'])){
 		<br>
 		<div class="card shadow">
 			<div class="card-body">
-					
+				<h2>Student Profile Edit</h2>
+				<p>
+					<?php 
+						if(isset($msg)){
+							echo $msg;
+						}
+
+					?>
+
+				</p>
+				<hr>
+
 				<form action="" method="POST" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="name">Name</label>
@@ -99,11 +244,11 @@ if(isset($_GET['edit_id'])){
 						?>
 					</div>
 					<div class="form-group">		
-									<?php 
-										if( isset($msgfl) ){
-											echo $msgfl;		
-												}
-									?>	
+						<?php 
+							if( isset($msgfl) ){
+								echo $msgfl;		
+								}
+						?>	
 					</div>
 					<div class="container">
 						<div class="row">
@@ -111,14 +256,17 @@ if(isset($_GET['edit_id'])){
 								<div class="form-group">								
 									<h6>Upload Here</h6>					
 									<label for="file"><img style="cursor: pointer;" width="80" data-toggle="tooltip" data-placement="right" title="Profile Photo" src="pic.png" alt=""></label>
-									<input style="display: none;" name="file" type="file" id="file">
+
+									<input style="display: none;" name="new_photo" type="file" id="file">
+												
+									<input name="old_photo" type="hidden" value="<?php echo $e_stu->photo; ?>"  id="file">
 												
 								</div>
 							</div>
 							<div class="col">
 								<div class="form-group"> 
 									<h6>Preview Here</h6>
-									<img class="border border-gray rounded-circle" width='75' height="75" id="up_file" src="assets/pp/<?php echo $e_stu->photo; ?>" alt="<?php echo $e_stu->photo; ?>">
+									<img class="border border-gray rounded-circle" width='75' height="75" id="up_file" src="assets/pp/<?php echo $e_stu->photo; ?>" alt="">
 								</div>					
 							</div>
 							<div class="col-6">
@@ -157,7 +305,7 @@ if(isset($_GET['edit_id'])){
 		})
 
 
-		$('input[name="file"]').change(function(e){
+		$('input[name="new_photo"]').change(function(e){
 
 			let file_url = URL.createObjectURL(e.target.files[0]);
 

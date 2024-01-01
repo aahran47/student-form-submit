@@ -216,7 +216,7 @@ include_once "autoload.php";
 					
 					<div class="form-group">
 						<label for="gender">Gender</label> <br>
-						<input name="gender" id="male" type="radio" value="Male"> <label for="male">Male</label> <br>
+						<input name="gender" checked id="male" type="radio" value="Male"> <label for="male">Male</label> <br>
 						<input name="gender" id="female" type="radio" value="Female"> <label for="female">Female</label>
 						<?php 
 							if( isset($err['gender']) ){
@@ -224,7 +224,7 @@ include_once "autoload.php";
 							}
 						?>
 					</div>
-					
+
 					<div class="form-group">		
 									<?php 
 										if( isset($msgfl) ){
