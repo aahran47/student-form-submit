@@ -8,7 +8,7 @@ if( isset($_GET['delete_id'])){
 
 	unlink('assets/pp/'. $photo_name);
 	delete('users', $delete_id);
-	header("location:http://localhost:8080/parvez/");
+	header("location:index.php");
 }
  
 
@@ -76,9 +76,9 @@ if( isset($_GET['delete_id'])){
 							<td><?php echo $user_da['gender'] ?></td>
 							<td><img src="assets/pp/<?php echo $user_da['photo'] ?>" alt=""></td>
 							<td>
-								<a class="btn btn-sm btn-info" href="">View</a>
-								<a class="btn btn-sm btn-warning" href="#">Edit</a>
-								<a class="btn btn-sm btn-danger" href="?delete_id=<?php echo $user_da['id']?>&photo=<?php echo $user_da['photo']?>">Delete</a>
+								<a class="btn btn-sm btn-info" href="show.php?show_id=<?php echo $user_da['id']?>">View</a>
+								<a class="btn btn-sm btn-warning" href="edit.php?edit_id=<?php echo $user_da['id']?>">Edit</a>
+								<a id="delete_btn" class="btn btn-sm btn-danger" href="?delete_id=<?php echo $user_da['id']?>&photo=<?php echo $user_da['photo']?>">Delete</a>
 							</td>
 						</tr>
 						
@@ -102,5 +102,17 @@ if( isset($_GET['delete_id'])){
 	<script src="assets/js/popper.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/custom.js"></script>
+	<script>
+		$('#delete_btn').click(function(){
+			let conf = confirm('Are you sure ?');
+			if ( conf == true) {
+				return true;
+			}else{
+				return false;
+			}
+		});
+ 
+	</script>
+
 </body>
 </html>

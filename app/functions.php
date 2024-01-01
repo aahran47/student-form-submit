@@ -24,7 +24,11 @@
  * Data find by function 
  */
 
- function find(){
+ function find($table, $id){
+
+   $data = connect()->query("SELECT * FROM $table WHERE id='$id'");
+
+   return $data->fetch_object();
    
  }
 

@@ -195,24 +195,36 @@ include_once "autoload.php";
 							}
 						?>
 					</div>
-					<div class="form-group">
-						<label for="location">Location</label>
-						<input name="location" id="location" class="form-control" type="text">
+							<div class="form-group">
+								<label for="">Location</label>
+								<select class="form-control" name="location" id="">
+									<option value="">-select-</option>
+									<option value="Mirpur">Mirpur</option>
+									<option  value="Banani">Banani</option>
+									<option  value="Uttara">Uttara</option>
+									<option value="Mohammadpur">Mohammadpur</option>
+									<option value="Badda">Badda</option>
+									<option value="Gualshan">Gualshan</option>
+								</select>
+							</div>
+					
 						<?php 
 							if( isset($err['location']) ){
 								echo $err['location'];
 							}
 						?>
-					</div>
+					
 					<div class="form-group">
-						<label for="gender">Gender</label>
-						<input name="gender" id="gender" class="form-control" type="text">
+						<label for="gender">Gender</label> <br>
+						<input name="gender" id="male" type="radio" value="Male"> <label for="male">Male</label> <br>
+						<input name="gender" id="female" type="radio" value="Female"> <label for="female">Female</label>
 						<?php 
 							if( isset($err['gender']) ){
 								echo $err['gender'];
 							}
 						?>
 					</div>
+					
 					<div class="form-group">		
 									<?php 
 										if( isset($msgfl) ){
