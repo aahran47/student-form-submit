@@ -39,28 +39,37 @@ include_once "autoload.php";
 		$roll = $_POST['roll'];
 		$location = $_POST['location'];
 		$gender = $_POST['gender'];
-		
-		
-		/// Upload profile photo
-		$data = move($_FILES['file'], 'assets/pp/',['jpg','png','gif']);
-
-		/// Get data from function 
-		$unique_name = $data['unique_name'];
-		$msgfl = $data['err_msg'];
 
 		
+
+
+		// email check 
+		$masi = connect()->query("SELECT email FROM users WHERE email='$email'");
+		$email_dub = $masi->num_rows; 
+		
+
+
+		// if(isset($_FILES['file'])){
+		// 	/// Upload profile photo
+
+			
+		// }		
 
 
 		/**
 		 * File Validation with move() function bro
 		 */
-		if( empty($msgfl)){
-			$msgfl = validate('File upload success!', 'success');
-		}else{			
+		// if( empty($msgfl)){
 			
-			$msgfl = validate('Please selece photo !!!', 'info');
+			
+		// }
+		
+		
+		
+		// else{			
+		// 	$msgfl = validate('Please selece photo !!!', 'info');			
 
-		}
+		// }
 
 		
 
@@ -117,15 +126,26 @@ include_once "autoload.php";
 			/**in_array() $ph != '018' && $ph != '017'*/
 		}elseif( in_array($ph, ['018', '016', '017', '013', '019', '014', '015']) == false ){
 			$msg = validate('Phone should be BD number', 'info');
-		}else{
+		}elseif( $email_dub > 0){
+			$msg = validate('Email is already exits!!!', 'warning');
+		}else{		
+	
+			if(empty($msgfl)){
+				$data = move($_FILES['file'], 'assets/pp/',['jpg','png','gif'], 500);
 
+				/// Get data from function 
+				$unique_name = $data['unique_name'];
+
+				$msgfl = $data['err_msg'];
+				/// Data insert
+				create("INSERT INTO users (name, email, cell , roll, location, gender, photo) VALUES ('$name','$email','$cell','$roll', '$location', '$gender', '$unique_name')");
+				$msg = validate('Data is stable', 'success');
+				$msgfl = validate('File upload success!', 'success');
+			}else{
+				$msgfl = validate('Please select a image', 'info');
+			}
 			
-
-			/// Data insert
-			create("INSERT INTO users (name, email, cell , roll, location, gender, photo) VALUES ('$name','$email','$cell','$roll', '$location', '$gender', '$unique_name')");
-	
-	
-			$msg = validate('Data is stable', 'success');
+			
 		}
 
 

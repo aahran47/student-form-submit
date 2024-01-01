@@ -45,8 +45,10 @@
  * Data update by function 
  */
 
- function update(){
-   
+ function update($sql){
+
+   connect()->query($sql);
+
  }
 
 
@@ -66,7 +68,7 @@
   * file upload function
   */
 
-  function move($file, $loca = '/', array $type){
+  function move($file, $loca = '/', array $type, $mix_size){
 
       // File upload system with php 
 
@@ -91,11 +93,12 @@
       $msgfl = '';
       if( in_array($extension, $type) == false ){
          $msgfl = validate('Image formet is wrong!!', 'danger');
-      }elseif( $size_in_kb > 500 ){
+      }elseif( $size_in_kb > $mix_size ){
 			$msgfl = validate('Minimum Image Size 500 KB', 'info');
       }else{
          ///Finaly upload file
          move_uploaded_file($file_tmpname, $loca . $unique_name);
+         
       }
 
 

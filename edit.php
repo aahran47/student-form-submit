@@ -24,7 +24,7 @@ include_once "autoload.php";
 		
 		
 		if(!empty($_FILES['new_photo']['name'])){
-			$data = move($_FILES['new_photo'], 'assets/pp/', ['jpg','png','gif']);
+			$data = move($_FILES['new_photo'], 'assets/pp/', ['jpg','png','gif'], 500);
 			$photo_name = $data['unique_name'];
 			unlink('assets/pp/'. $_POST['old_photo']);
 		}else{
@@ -118,7 +118,7 @@ include_once "autoload.php";
 			
 
 			/// Upate form data
-			connect()->query("UPDATE users SET name='$name', email='$email', cell='$cell', roll='$roll', location='$location', gender='$gender', photo='$photo_name' WHERE id='$id'");
+			update("UPDATE users SET name='$name', email='$email', cell='$cell', roll='$roll', location='$location', gender='$gender', photo='$photo_name' WHERE id='$id'");
 				
 	
 			$msg = validate('Profile updated successfully!!!', 'success');
