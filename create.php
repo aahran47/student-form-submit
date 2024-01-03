@@ -39,43 +39,7 @@ include_once "autoload.php";
 		$roll = $_POST['roll'];
 		$location = $_POST['location'];
 		$gender = $_POST['gender'];
-
-		
-
-
-		// email check 
-		$masi = connect()->query("SELECT email FROM users WHERE email='$email'");
-		$email_dub = $masi->num_rows; 
-		
-
-
-		// if(isset($_FILES['file'])){
-		// 	/// Upload profile photo
-
-			
-		// }		
-
-
-		/**
-		 * File Validation with move() function bro
-		 */
-		// if( empty($msgfl)){
-			
-			
-		// }
-		
-		
-		
-		// else{			
-		// 	$msgfl = validate('Please selece photo !!!', 'info');			
-
-		// }
-
-		
-
-
-
-		
+	
 
 
 		if( isset($email)) {
@@ -119,6 +83,7 @@ include_once "autoload.php";
 
 		if( empty($name) || empty($email) || empty($cell) || empty($roll) || empty($location) || empty($gender) ){
 			$msg = validate('All fields are required!!!!');
+			$msgfl = validate('Please select a image', 'info');
 		}else if( filter_var($email, FILTER_VALIDATE_EMAIL) == false ){
 			$msg = validate('Invalid Email Address!!');
 		}elseif( $ins_mail != 'sorobindu.com' && $ins_mail != 'habibialbi.com'){
@@ -126,27 +91,44 @@ include_once "autoload.php";
 			/**in_array() $ph != '018' && $ph != '017'*/
 		}elseif( in_array($ph, ['018', '016', '017', '013', '019', '014', '015']) == false ){
 			$msg = validate('Phone should be BD number', 'info');
-		}elseif( $email_dub > 0){
+		}elseif( dataChecker('users', 'email', $email)){
 			$msg = validate('Email is already exits!!!', 'warning');
-		}else{		
-	
-			if(empty($msgfl)){
+		}else{	
 				$data = move($_FILES['file'], 'assets/pp/',['jpg','png','gif'], 500);
 
 				/// Get data from function 
 				$unique_name = $data['unique_name'];
 
-				$msgfl = $data['err_msg'];
-				/// Data insert
+				$ee_rr = $data['err_msg'];
+				
+
+			if( empty($ee_rr)){
+				// Data insert 
 				create("INSERT INTO users (name, email, cell , roll, location, gender, photo) VALUES ('$name','$email','$cell','$roll', '$location', '$gender', '$unique_name')");
-				$msg = validate('Data is stable', 'success');
-				$msgfl = validate('File upload success!', 'success');
+				 $msg = validate('Data is stable', 'success');
+				 $msgfl = validate('File upload success!', 'success');
 			}else{
-				$msgfl = validate('Please select a image', 'info');
+				$msgfl =  $ee_rr;
 			}
+
+
+				
+
+				
+				
 			
-			
+
+
+
+
 		}
+		
+		
+		
+		
+			
+			
+		
 
 
 	

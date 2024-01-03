@@ -23,13 +23,7 @@ include_once "autoload.php";
 
 		
 		
-		if(!empty($_FILES['new_photo']['name'])){
-			$data = move($_FILES['new_photo'], 'assets/pp/', ['jpg','png','gif'], 500);
-			$photo_name = $data['unique_name'];
-			unlink('assets/pp/'. $_POST['old_photo']);
-		}else{
-			$photo_name = $_POST['old_photo'];
-		}
+		
 		
 		
 		/// Upload profile photo
@@ -114,14 +108,39 @@ include_once "autoload.php";
 			$msg = validate('Phone should be BD number', 'info');
 		}else{
 
+			if(!empty($_FILES['new_photo']['name'])){
+				$data = move($_FILES['new_photo'], 'assets/pp/', ['jpg','png','gif'], 500);
+				$photo_name = $data['unique_name'];
+				$ee_r = $data['err_msg'];
+				/// Upate form data content 
+					
 				
-			
-
-			/// Upate form data
-			update("UPDATE users SET name='$name', email='$email', cell='$cell', roll='$roll', location='$location', gender='$gender', photo='$photo_name' WHERE id='$id'");
+				/// Upate form data image 
+				if( empty($ee_r)){
+					update("UPDATE users SET photo='$photo_name' WHERE id='$id'");
 				
 	
+					$msg = validate('Profile updated successfully!!!', 'success');
+	
+					unlink('assets/pp/'. $_POST['old_photo']);
+				}else{
+					$msgfl = $ee_r;
+				}
+			
+			}else{
+				$photo_name = $_POST['old_photo'];			
+				
+			}	
+
+			$updated_at = date('Y-m-d H:i:s', time());
+			update("UPDATE users SET name='$name', email='$email', cell='$cell', roll='$roll', location='$location', gender='$gender', updated_at='$updated_at' WHERE id='$id'");
+
+			
 			$msg = validate('Profile updated successfully!!!', 'success');
+
+			
+
+			
 		}
 
 

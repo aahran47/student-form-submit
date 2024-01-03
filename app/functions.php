@@ -51,6 +51,21 @@
 
  }
 
+ /**
+  * Dublicate Data Checker 
+  */
+  function dataChecker($table, $col, $data){
+
+    $data = connect()->query("SELECT $col FROM $table WHERE $col='$data'");
+
+    if( $data->num_rows > 0){
+      return true;
+    }else{
+      return false;
+    }
+
+  }
+
 
 
 
